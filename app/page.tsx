@@ -1,44 +1,24 @@
-import Image from "next/image";
-import type { ComponentType } from "react";
-import { ThemeToggle } from "@/components/theme-toggle";
+import Link from "next/link";
+import { ProjectCarousel } from "@/components/project-carousel";
+import { contactLinks, externalLinkProps, whatsappUrl } from "@/components/contact";
+import {
+  arcadeButton,
+  arcadeButtonDark,
+  arcadeButtonLight,
+  CategoryTag,
+  contentGap,
+  ProjectCover,
+  Section,
+  SectionHeading,
+} from "@/components/ui";
+import { projects, type Project } from "@/data/projects";
 import {
   ArrowRight,
-  ClipboardList,
-  CodeXml,
-  ImageIcon,
   LayoutTemplate,
-  LifeBuoy,
-  Mail,
-  MessageCircle,
-  MessagesSquare,
   ShoppingBag,
   Workflow,
   type LucideIcon,
-  type LucideProps,
 } from "lucide-react";
-
-// lucide-react quitó los íconos de marcas: este es el trazado original de su ícono de Instagram
-function Instagram({ className, strokeWidth = 2, ...props }: LucideProps) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      width={24}
-      height={24}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={strokeWidth}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      {...props}
-    >
-      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-    </svg>
-  );
-}
 
 type Feature = { title: string; icon: LucideIcon; iconColor: string; description: string };
 
@@ -66,103 +46,45 @@ const services: Feature[] = [
   },
 ];
 
-const steps: Feature[] = [
-  {
-    title: "Charla inicial",
-    icon: MessagesSquare,
-    iconColor: "bg-accent",
-    description:
-      "Nos juntamos en persona o por videollamada, sin costo. Nos contás cómo trabaja tu negocio y qué querés resolver.",
-  },
-  {
-    title: "Propuesta y presupuesto",
-    icon: ClipboardList,
-    iconColor: "bg-retro-pink",
-    description:
-      "En pocos días te mandamos por escrito qué vamos a hacer, cuánto cuesta y para cuándo está. Sin letra chica.",
-  },
-  {
-    title: "Desarrollo con avances",
-    icon: CodeXml,
-    iconColor: "bg-retro-purple",
-    description:
-      "Cada semana te mostramos cómo va y ajustamos sobre la marcha. Siempre hablás con la misma persona: la que programa.",
-  },
-  {
-    title: "Entrega y soporte",
-    icon: LifeBuoy,
-    iconColor: "bg-accent",
-    description:
-      "Publicamos todo, te explicamos cómo usarlo y seguimos a un mensaje de distancia para cambios y consultas.",
-  },
-];
+const featuredProjects = projects.filter((project) => project.featured).slice(0, 3);
 
-const projects: { title: string; description: string; tech: string[] }[] = [
-  {
-    title: "Sistema de gestión escolar",
-    description: "Plataforma para administrar alumnos, cursos y notas de un colegio.",
-    tech: ["Next.js", "React", "Node.js", "PostgreSQL"],
-  },
-  {
-    title: "Tienda online con panel",
-    description: "Catálogo de productos con panel de administración e imágenes en la nube.",
-    tech: ["Next.js", "React", "Node.js", "Cloudinary"],
-  },
-];
+// Imagen ~60% del ancho en desktop: (1104px de contenido - 48px de gap) * 3/5
+const rowCoverSizes = "(min-width: 1152px) 634px, (min-width: 1024px) calc(60vw - 58px), calc(100vw - 48px)";
 
-// Número de WhatsApp en formato internacional, sin "+" ni espacios
-const WHATSAPP_NUMBER = "549351XXXXXXX";
-const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, quiero consultar por un proyecto")}`;
-const INSTAGRAM_USER = "USUARIO";
-const CONTACT_EMAIL = "MAIL@DOMINIO.COM";
-
-const contactLinks: { label: string; href: string; icon: ComponentType<LucideProps>; external: boolean; className: string }[] = [
-  {
-    label: "WhatsApp",
-    href: whatsappUrl,
-    icon: MessageCircle,
-    external: true,
-    className: "bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]",
-  },
-  {
-    label: "Instagram",
-    href: `https://instagram.com/${INSTAGRAM_USER}`,
-    icon: Instagram,
-    external: true,
-    className:
-      "bg-inverse text-on-inverse shadow-[4px_4px_0px_var(--color-retro-pink)] hover:shadow-[2px_2px_0px_var(--color-retro-pink)]",
-  },
-  {
-    label: "Mail",
-    href: `mailto:${CONTACT_EMAIL}`,
-    icon: Mail,
-    external: false,
-    className:
-      "bg-card text-ink shadow-[4px_4px_0px_var(--color-retro-purple)] hover:shadow-[2px_2px_0px_var(--color-retro-purple)]",
-  },
-];
-
-const externalLinkProps = { target: "_blank", rel: "noopener noreferrer" } as const;
-
-const navLinks = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Proyectos", href: "#proyectos" },
-  { label: "Contacto", href: "#contacto" },
-];
-
-// Botón "arcade": sombra dura que se reduce al hover y desaparece al presionar
-const arcadeButton =
-  "inline-flex items-center justify-center gap-2 border-2 border-primary px-8 py-4 font-display text-sm font-semibold uppercase tracking-wider transition-all duration-300 hover:translate-x-[2px] hover:translate-y-[2px] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none";
-
-function SectionHeading({ eyebrow, title }: { eyebrow: string; title: string }) {
+function ProjectRow({ project, index }: { project: Project; index: number }) {
+  const { slug, title, category, summary, url, cover, images } = project;
   return (
-    <div className="max-w-2xl">
-      <p className="inline-block border-2 border-primary bg-card px-3 py-1 font-display text-xs font-semibold uppercase tracking-[0.2em] text-retro-purple">
-        {eyebrow}
-      </p>
-      <h2 className="mt-5 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">{title}</h2>
-    </div>
+    <article className="grid items-center gap-8 lg:grid-cols-5 lg:gap-12">
+      <div
+        className={`border-2 border-primary shadow-[6px_6px_0px_var(--color-primary)] transition-all duration-300 hover:shadow-[10px_10px_0px_var(--color-primary)] motion-safe:hover:-translate-y-1 motion-reduce:transition-none lg:col-span-3 ${index % 2 === 1 ? "lg:order-last" : ""}`}
+      >
+        {images.length > 0 ? (
+          <ProjectCarousel images={images} href={`/proyectos/${slug}`} sizes={rowCoverSizes} />
+        ) : (
+          <Link href={`/proyectos/${slug}`} aria-label={`Ver caso: ${title}`} className="block">
+            <ProjectCover cover={cover} sizes={rowCoverSizes} />
+          </Link>
+        )}
+      </div>
+      <div className="lg:col-span-2">
+        <span className="block font-mono text-5xl font-bold text-muted sm:text-6xl">{String(index + 1).padStart(2, "0")}</span>
+        <div className="mt-6">
+          <CategoryTag>{category}</CategoryTag>
+        </div>
+        <h3 className="mt-5 font-display text-2xl font-semibold tracking-tight sm:text-3xl">{title}</h3>
+        <p className="mt-4 leading-relaxed text-muted">{summary}</p>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link href={`/proyectos/${slug}`} className={`${arcadeButton} ${arcadeButtonDark}`}>
+            Ver caso
+          </Link>
+          {url && (
+            <a href={url} {...externalLinkProps} className={`${arcadeButton} ${arcadeButtonLight}`}>
+              Ver sitio ↗
+            </a>
+          )}
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -220,190 +142,93 @@ function RetroTerminal() {
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col">
-      {/* NAV */}
-      <header className="sticky top-0 z-20 border-b-2 border-primary bg-bg/85 backdrop-blur-md">
-        <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-          <a href="#" className="flex items-center">
-            <Image
-              src="/logo-groove-system.svg"
-              alt="Groove System"
-              width={363}
-              height={53}
-              preload
-              className="h-[34px] w-auto dark:hidden"
-            />
-            <Image
-              src="/logo-groove-system-dark.svg"
-              alt="Groove System"
-              width={363}
-              height={53}
-              preload
-              className="hidden h-[34px] w-auto dark:block"
-            />
-          </a>
-          <div className="flex items-center gap-8">
-            <ul className="hidden items-center gap-8 text-sm font-medium text-muted md:flex">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} className="transition-colors duration-300 hover:text-retro-pink">
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-            <ThemeToggle />
-          </div>
-        </nav>
-      </header>
-
-      <main className="flex-1">
-        {/* HERO */}
-        <section className="relative overflow-hidden">
-          {/* Brillo neón de fondo */}
-          <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
-            <div className="absolute left-1/2 top-24 h-[28rem] w-[min(90vw,48rem)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_30%_40%,var(--color-retro-pink),transparent_60%),radial-gradient(circle_at_70%_60%,var(--color-retro-purple),transparent_60%)] opacity-20 blur-3xl dark:opacity-10" />
-          </div>
-
-          <div className="relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-24 pt-20 text-center sm:pb-32 sm:pt-28">
-            <h1 className="font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-balance sm:text-6xl lg:text-7xl">
-              Marcamos el ritmo de tu negocio{" "}
-              <span className="bg-linear-to-r from-retro-purple via-retro-pink to-accent bg-clip-text text-transparent">
-                digital.
-              </span>
-            </h1>
-
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
-              Hacemos páginas web, tiendas online y sistemas para pymes y comercios. Plazos claros desde el primer día, trato directo con quien programa y soporte después de la entrega.
-            </p>
-
-            <div className="mt-12 flex w-full flex-col justify-center gap-5 sm:w-auto sm:flex-row">
-              <a
-                href="#servicios"
-                className={`${arcadeButton} group bg-inverse text-on-inverse shadow-[4px_4px_0px_var(--color-retro-pink)] hover:shadow-[2px_2px_0px_var(--color-retro-pink)]`}
-              >
-                Ver Servicios
-                <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-              </a>
-              <a
-                href={whatsappUrl}
-                {...externalLinkProps}
-                className={`${arcadeButton} bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]`}
-              >
-                Contactar
-              </a>
-            </div>
-
-            <div className="mt-20 flex w-full justify-center">
-              <RetroTerminal />
-            </div>
-          </div>
-        </section>
-
-        {/* SERVICIOS */}
-        <section id="servicios" className="scroll-mt-16 border-t-2 border-primary">
-          <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
-            <SectionHeading eyebrow="Servicios" title="Elegí tu nivel." />
-            <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              {services.map((service, i) => (
-                <FeatureCard key={service.title} {...service} index={i} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PROCESO */}
-        <section id="proceso" className="scroll-mt-16 border-y-2 border-primary bg-card">
-          <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
-            <SectionHeading eyebrow="Proceso" title="Cómo trabajamos." />
-            <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-              {steps.map((step, i) => (
-                <FeatureCard key={step.title} {...step} index={i} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* PROYECTOS */}
-        <section id="proyectos" className="scroll-mt-16">
-          <div className="mx-auto max-w-6xl px-6 py-24 sm:py-32">
-            <SectionHeading eyebrow="Proyectos recientes" title="Nuestro Trabajo" />
-            <div className="mt-16 grid gap-8 md:grid-cols-2">
-              {projects.map(({ title, description, tech }, i) => (
-                <article
-                  key={title}
-                  className="flex flex-col border-2 border-primary bg-card shadow-[6px_6px_0px_var(--color-primary)] transition-all duration-300 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0px_var(--color-primary)]"
-                >
-                  {/* TODO: captura */}
-                  <div className="grid aspect-video place-items-center border-b-2 border-primary bg-surface">
-                    <ImageIcon aria-hidden className="size-10 text-muted/60" strokeWidth={1.5} />
-                  </div>
-                  <div className="flex flex-1 flex-col p-8">
-                    <div className="flex items-start justify-between gap-4">
-                      <h3 className="font-display text-xl font-semibold tracking-tight">{title}</h3>
-                      <span className="font-mono text-xs text-muted">0{i + 1}</span>
-                    </div>
-                    <p className="mt-4 leading-relaxed text-muted">{description}</p>
-                    <ul className="mt-6 flex flex-wrap gap-2">
-                      {tech.map((name) => (
-                        <li
-                          key={name}
-                          className="border-2 border-primary bg-primary px-2 py-0.5 font-mono text-xs font-bold uppercase tracking-wider text-accent"
-                        >
-                          {name}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* CONTACTO */}
-        <section id="contacto" className="scroll-mt-16 border-t-2 border-primary">
-          <div className="mx-auto flex max-w-6xl flex-col items-center px-6 py-24 text-center sm:py-32">
-            <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-5xl">¿Hablamos?</h2>
-            <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
-              Contame qué necesitás y te respondo en el día.
-            </p>
-            <div className="mt-12 flex w-full flex-col justify-center gap-5 sm:w-auto sm:flex-row">
-              {contactLinks.map(({ label, href, icon: Icon, external, className }) => (
-                <a key={label} href={href} {...(external && externalLinkProps)} className={`${arcadeButton} ${className}`}>
-                  <Icon aria-hidden className="size-4" />
-                  {label}
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      {/* FOOTER */}
-      <footer className="border-t-4 border-primary bg-card">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-10 text-center sm:flex-row sm:text-left">
-          <p className="flex items-center gap-2 font-display font-extrabold tracking-tight">
-            <span aria-hidden className="size-3 bg-linear-to-br from-retro-purple via-retro-pink to-accent" />
-            Groove System
-          </p>
-          <ul className="flex gap-3">
-            {contactLinks.map(({ label, href, icon: Icon, external }) => (
-              <li key={label}>
-                <a
-                  href={href}
-                  {...(external && externalLinkProps)}
-                  aria-label={label}
-                  className="grid size-9 place-items-center border-2 border-primary bg-card transition-colors duration-300 hover:text-retro-pink"
-                >
-                  <Icon aria-hidden className="size-4" />
-                </a>
-              </li>
-            ))}
-          </ul>
-          <p className="text-sm text-muted">Groove System ©</p>
+    <main className="flex-1">
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        {/* Brillo neón de fondo */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-0">
+          <div className="absolute left-1/2 top-24 h-[28rem] w-[min(90vw,48rem)] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_30%_40%,var(--color-retro-pink),transparent_60%),radial-gradient(circle_at_70%_60%,var(--color-retro-purple),transparent_60%)] opacity-20 blur-3xl dark:opacity-10" />
         </div>
-      </footer>
-    </div>
+
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-6 pb-14 pt-20 text-center sm:pt-28 md:pb-20">
+          <h1 className="font-display text-4xl font-extrabold leading-[1.1] tracking-tight text-balance sm:text-6xl lg:text-7xl">
+            Marcamos el ritmo de tu negocio{" "}
+            <span className="bg-linear-to-r from-retro-purple via-retro-pink to-accent bg-clip-text text-transparent">
+              digital.
+            </span>
+          </h1>
+
+          <p className="mt-8 max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl">
+            Hacemos páginas web, tiendas online y sistemas para pymes y comercios. Plazos claros desde el primer día, trato directo con el equipo que desarrolla tu proyecto y soporte después de la entrega.
+          </p>
+
+          <div className="mt-12 flex w-full flex-col justify-center gap-5 sm:w-auto sm:flex-row">
+            <a
+              href="#servicios"
+              className={`${arcadeButton} ${arcadeButtonDark} group`}
+            >
+              Ver Servicios
+              <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </a>
+            <a
+              href={whatsappUrl}
+              {...externalLinkProps}
+              className={`${arcadeButton} bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]`}
+            >
+              Contactar
+            </a>
+          </div>
+
+          <div className="mt-20 flex w-full justify-center">
+            <RetroTerminal />
+          </div>
+        </div>
+      </section>
+
+      {/* SERVICIOS */}
+      <Section id="servicios" className="border-t-2 border-primary">
+        <SectionHeading eyebrow="Servicios" title="Elegí tu nivel." />
+        <div className={`${contentGap} grid gap-8 md:grid-cols-2 lg:grid-cols-3`}>
+          {services.map((service, i) => (
+            <FeatureCard key={service.title} {...service} index={i} />
+          ))}
+        </div>
+      </Section>
+
+      {/* PROYECTOS */}
+      <Section id="proyectos" className="border-t-2 border-primary">
+        <SectionHeading eyebrow="Proyectos recientes" title="Nuestro Trabajo" />
+        <div className={`${contentGap} space-y-14 md:space-y-20`}>
+          {featuredProjects.map((project, i) => (
+            <ProjectRow key={project.slug} project={project} index={i} />
+          ))}
+        </div>
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/proyectos"
+            className={`${arcadeButton} group bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]`}
+          >
+            Ver todos los proyectos
+            <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </div>
+      </Section>
+
+      {/* CONTACTO */}
+      <Section id="contacto" className="border-t-2 border-primary" innerClassName="flex flex-col items-center text-center">
+        <h2 className="font-display text-3xl font-extrabold tracking-tight sm:text-5xl">¿Hablamos?</h2>
+        <p className={`${contentGap} max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl`}>
+          Contanos qué necesitás y te respondemos en el día.
+        </p>
+        <div className="mt-10 flex w-full flex-col justify-center gap-5 sm:w-auto sm:flex-row">
+          {contactLinks.map(({ label, href, icon: Icon, external, className }) => (
+            <a key={label} href={href} {...(external && externalLinkProps)} className={`${arcadeButton} ${className}`}>
+              <Icon aria-hidden className="size-4" />
+              {label}
+            </a>
+          ))}
+        </div>
+      </Section>
+    </main>
   );
 }
