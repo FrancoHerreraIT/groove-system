@@ -1,8 +1,7 @@
-import type { ComponentType } from "react";
-import { Mail, MessageCircle, type LucideProps } from "lucide-react";
+import type { LucideProps } from "lucide-react";
 
 // lucide-react quitó los íconos de marcas: este es el trazado original de su ícono de Instagram
-function Instagram({ className, strokeWidth = 2, ...props }: LucideProps) {
+export function Instagram({ className, strokeWidth = 2, ...props }: LucideProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,44 +23,14 @@ function Instagram({ className, strokeWidth = 2, ...props }: LucideProps) {
   );
 }
 
-// Número de WhatsApp en formato internacional, sin "+" ni espacios
-const WHATSAPP_NUMBER = "549351XXXXXXX";
-export const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent("Hola, quiero consultar por un proyecto")}`;
-const INSTAGRAM_USER = "USUARIO";
-const CONTACT_EMAIL = "MAIL@DOMINIO.COM";
+export const INSTAGRAM_USER = "groove.system";
+export const INSTAGRAM_PROFILE = "https://www.instagram.com/groove.system";
+export const CONTACT_EMAIL = "francoherreramoyano@gmail.com";
 
 export const externalLinkProps = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-export type ContactLink = {
-  label: string;
-  href: string;
-  icon: ComponentType<LucideProps>;
-  external: boolean;
-  className: string;
-};
-
-export const contactLinks: ContactLink[] = [
-  {
-    label: "WhatsApp",
-    href: whatsappUrl,
-    icon: MessageCircle,
-    external: true,
-    className: "bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]",
-  },
-  {
-    label: "Instagram",
-    href: `https://instagram.com/${INSTAGRAM_USER}`,
-    icon: Instagram,
-    external: true,
-    className:
-      "bg-inverse text-on-inverse shadow-[4px_4px_0px_var(--color-retro-pink)] hover:shadow-[2px_2px_0px_var(--color-retro-pink)]",
-  },
-  {
-    label: "Mail",
-    href: `mailto:${CONTACT_EMAIL}`,
-    icon: Mail,
-    external: false,
-    className:
-      "bg-card text-ink shadow-[4px_4px_0px_var(--color-retro-purple)] hover:shadow-[2px_2px_0px_var(--color-retro-purple)]",
-  },
-];
+// Colores de los botones de contacto (se combinan con arcadeButton)
+export const instagramButtonColors =
+  "bg-inverse text-on-inverse shadow-[4px_4px_0px_var(--color-retro-pink)] hover:shadow-[2px_2px_0px_var(--color-retro-pink)]";
+export const mailButtonColors =
+  "bg-card text-ink shadow-[4px_4px_0px_var(--color-retro-purple)] hover:shadow-[2px_2px_0px_var(--color-retro-purple)]";

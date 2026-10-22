@@ -2,10 +2,15 @@ import type { Metadata } from "next";
 import { ProjectsGrid } from "@/components/projects-grid";
 import { Section } from "@/components/ui";
 import { projects } from "@/data/projects";
+import { SITE_NAME, socialMetadata } from "@/lib/site";
+
+const title = "Proyectos";
+const description = "Tiendas online, sistemas y páginas web que hicimos para pymes y comercios.";
 
 export const metadata: Metadata = {
-  title: "Proyectos — Groove System",
-  description: "Tiendas online, sistemas y páginas web que hicimos para pymes y comercios.",
+  title,
+  description,
+  ...socialMetadata(`${title} | ${SITE_NAME}`, description, true),
 };
 
 export default function ProjectsPage() {

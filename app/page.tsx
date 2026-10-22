@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ProjectCarousel } from "@/components/project-carousel";
-import { contactLinks, externalLinkProps, whatsappUrl } from "@/components/contact";
+import { externalLinkProps, INSTAGRAM_PROFILE } from "@/components/contact";
+import { ContactButtons } from "@/components/contact-buttons";
 import {
   arcadeButton,
   arcadeButtonDark,
@@ -28,21 +29,21 @@ const services: Feature[] = [
     icon: LayoutTemplate,
     iconColor: "bg-accent",
     description:
-      "Una página simple para presentar tu servicio o una promo, con botón directo a tu WhatsApp. La tenés online en unas dos semanas y te ayudamos a armar los textos y las fotos.",
+      "Un sitio de una sola página para presentar tu negocio, un servicio o una promoción, con acceso directo a WhatsApp para recibir consultas. Se entrega en aproximadamente una semana e incluye asesoramiento en la redacción de los textos y la selección de imágenes.",
   },
   {
     title: "Tiendas Webs",
     icon: ShoppingBag,
     iconColor: "bg-retro-pink",
     description:
-      "Tu catálogo online con carrito y cobro con Mercado Pago. Te enseñamos a cargar productos y cambiar precios vos mismo, y si algo falla, nos escribís y lo resolvemos.",
+      "Un catálogo online con carrito de compras y pagos integrados con Mercado Pago. Incluye un panel de administración para gestionar productos y precios de forma autónoma, capacitación para su uso y soporte técnico posterior a la entrega.",
   },
   {
     title: "Sistemas a Medida",
     icon: Workflow,
     iconColor: "bg-retro-purple",
     description:
-      "Si llevás el stock, los turnos o los pedidos en planillas o en un cuaderno, armamos una herramienta pensada para tu negocio, así dejás de perder horas pasando datos a mano.",
+      "Desarrollamos herramientas de gestión a medida que reemplazan las planillas y los registros en papel: control de stock, turnos, pedidos y más. Centralizan la información, automatizan tareas repetitivas y reducen el tiempo dedicado a la carga manual de datos.",
   },
 ];
 
@@ -171,7 +172,7 @@ export default function Home() {
               <ArrowRight aria-hidden className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
             <a
-              href={whatsappUrl}
+              href={INSTAGRAM_PROFILE}
               {...externalLinkProps}
               className={`${arcadeButton} bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]`}
             >
@@ -220,14 +221,7 @@ export default function Home() {
         <p className={`${contentGap} max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl`}>
           Contanos qué necesitás y te respondemos en el día.
         </p>
-        <div className="mt-10 flex w-full flex-col justify-center gap-5 sm:w-auto sm:flex-row">
-          {contactLinks.map(({ label, href, icon: Icon, external, className }) => (
-            <a key={label} href={href} {...(external && externalLinkProps)} className={`${arcadeButton} ${className}`}>
-              <Icon aria-hidden className="size-4" />
-              {label}
-            </a>
-          ))}
-        </div>
+        <ContactButtons withFaq />
       </Section>
     </main>
   );

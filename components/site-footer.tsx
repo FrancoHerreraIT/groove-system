@@ -1,4 +1,11 @@
-import { contactLinks, externalLinkProps } from "@/components/contact";
+import Link from "next/link";
+import { Mail } from "lucide-react";
+import { externalLinkProps, Instagram, INSTAGRAM_PROFILE } from "@/components/contact";
+import { EmailButton } from "@/components/email-button";
+import { textLink } from "@/components/ui";
+
+const iconLink =
+  "grid size-9 place-items-center border-2 border-primary bg-card transition-colors duration-300 hover:text-retro-pink";
 
 export function SiteFooter() {
   return (
@@ -9,20 +16,23 @@ export function SiteFooter() {
           Groove System
         </p>
         <ul className="flex gap-3">
-          {contactLinks.map(({ label, href, icon: Icon, external }) => (
-            <li key={label}>
-              <a
-                href={href}
-                {...(external && externalLinkProps)}
-                aria-label={label}
-                className="grid size-9 place-items-center border-2 border-primary bg-card transition-colors duration-300 hover:text-retro-pink"
-              >
-                <Icon aria-hidden className="size-4" />
-              </a>
-            </li>
-          ))}
+          <li>
+            <a href={INSTAGRAM_PROFILE} {...externalLinkProps} aria-label="Instagram" className={iconLink}>
+              <Instagram aria-hidden className="size-4" />
+            </a>
+          </li>
+          <li>
+            <EmailButton ariaLabel="Mail" placement="top" className={iconLink}>
+              <Mail aria-hidden className="size-4" />
+            </EmailButton>
+          </li>
         </ul>
-        <p className="text-sm text-muted">Groove System ©</p>
+        <div className="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
+          <Link href="/preguntas-frecuentes" className={textLink}>
+            Preguntas frecuentes
+          </Link>
+          <p className="text-sm text-muted">Groove System ©</p>
+        </div>
       </div>
     </footer>
   );

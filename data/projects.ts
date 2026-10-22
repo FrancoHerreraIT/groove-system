@@ -56,6 +56,34 @@ const harasImages: ProjectImage[] = [
   },
 ];
 
+const roblesImages: ProjectImage[] = [
+  {
+    src: "/proyectos/robles/robles-4-reportes.webp",
+    alt: "Robles 360 – reportes estratégicos",
+    caption: "Tablero de reportes estratégicos para el equipo directivo",
+  },
+  {
+    src: "/proyectos/robles/robles-3-asistencia.webp",
+    alt: "Robles 360 – toma de asistencia en desktop y celular",
+    caption: "Registro de asistencia por curso, en computadora y dispositivo móvil",
+  },
+  {
+    src: "/proyectos/robles/robles-5-ficha.webp",
+    alt: "Robles 360 – ficha de alumno",
+    caption: "Legajo digital con datos del estudiante y de sus tutores",
+  },
+  {
+    src: "/proyectos/robles/robles-2-panel.webp",
+    alt: "Robles 360 – panel de inicio",
+    caption: "Pantalla de inicio de la plataforma",
+  },
+  {
+    src: "/proyectos/robles/robles-1-login.webp",
+    alt: "Robles 360 – inicio de sesión",
+    caption: "Acceso institucional al sistema",
+  },
+];
+
 export const projects: Project[] = [
   {
     slug: "haras-del-este",
@@ -160,19 +188,96 @@ export const projects: Project[] = [
     images: harasImages,
   },
   {
-    slug: "sistema-escolar",
-    title: "Sistema de gestión escolar",
+    slug: "robles-360",
+    title: "Robles 360",
     category: "Sistema",
-    summary: "Plataforma para administrar alumnos, cursos y notas de un colegio.",
-    // TODO: completar ficha, desafío, solución, stack y resultados con datos reales
-    challenge: [],
-    solution: [],
-    stack: [],
-    results: [],
-    tags: ["Next.js", "React", "Node.js", "PostgreSQL"],
+    summary:
+      "Plataforma integral de gestión académica que centraliza la asistencia, los legajos estudiantiles y los indicadores institucionales.",
+    overview: {
+      client: "Colegio Luis Manuel Robles",
+      industry: "Educación secundaria",
+      type: "Sistema de gestión académica web",
+      scope: "Relevamiento, análisis funcional, diseño, desarrollo e implementación",
+      status: "Versión funcional",
+    },
+    challenge: [
+      "La institución gestionaba el registro de asistencia, los legajos de los estudiantes y el seguimiento académico mediante planillas y documentación en papel. La información se encontraba distribuida entre distintas áreas, lo que dificultaba su consulta y demandaba un trabajo manual considerable para la elaboración de reportes.",
+      "Se requería una solución unificada, accesible desde cualquier dispositivo, que garantizara a cada perfil (preceptoría, cuerpo docente, secretaría y equipo directivo) el acceso exclusivo a la información correspondiente a su función, y que brindara indicadores confiables para la toma de decisiones.",
+    ],
+    solutionIntro:
+      "Desarrollamos Robles 360, una plataforma web que integra la gestión académica de la institución en un único sistema, con accesos diferenciados por perfil e indicadores actualizados en tiempo real.",
+    solution: [
+      {
+        title: "Registro de asistencia",
+        description:
+          "Módulo de registro diario de asistencia por curso y turno, diseñado en función de las tareas de preceptoría.",
+        items: [
+          "Registro de presentes, ausentes y llegadas tarde",
+          "Aplicación de estados a la totalidad del curso en una sola operación",
+          "Indicadores en tiempo real de presentismo y porcentaje de asistencia",
+          "Parte diario, registro de retiros y consolidado de asistencia general",
+        ],
+      },
+      {
+        title: "Legajo digital del estudiante",
+        description: "Ficha integral por estudiante que reúne toda su información académica y personal.",
+        items: [
+          "Datos personales y de contacto del estudiante",
+          "Información de tutores, con tutor principal y disponibilidad horaria",
+          "Historial de asistencias y calificaciones por espacio curricular",
+          "Emisión del boletín de calificaciones en formato PDF",
+        ],
+      },
+      {
+        title: "Reportes estratégicos",
+        description:
+          "Tablero de indicadores académicos destinado al equipo directivo, elaborado a partir de la información registrada en el sistema.",
+        items: [
+          "Avance de programas, calificación promedio y tasa de aprobación institucional",
+          "Identificación temprana de estudiantes en situación de riesgo académico",
+          "Espacios curriculares con mayor tasa de desaprobación y con mejor rendimiento",
+          "Análisis de instancias de recuperación y exportación de reportes en PDF",
+        ],
+      },
+      {
+        title: "Gestión de perfiles y seguridad",
+        description:
+          "Esquema de permisos que asegura que cada usuario acceda únicamente a las funciones propias de su perfil.",
+        items: [
+          "Cinco perfiles: Secretaría, Docente, Preceptoría, Equipo Directivo y Administración",
+          "Permisos configurables por perfil",
+          "Autenticación segura y recuperación de contraseña por correo electrónico",
+          "Administración de cuentas de usuario desde la plataforma",
+        ],
+      },
+      {
+        title: "Diseño adaptable",
+        description: "La plataforma se adapta a computadoras, tablets y teléfonos móviles.",
+        items: [
+          "Registro de asistencia desde el dispositivo móvil, dentro del aula",
+          "Navegación intuitiva mediante menú lateral y buscador de estudiantes",
+        ],
+      },
+    ],
+    stack: [
+      { name: "Angular", purpose: "Desarrollo de la interfaz de usuario" },
+      { name: ".NET (C#)", purpose: "API y lógica de negocio" },
+      { name: "Entity Framework Core", purpose: "Acceso a datos y gestión de migraciones" },
+      { name: "PostgreSQL", purpose: "Base de datos institucional" },
+      { name: "Apache ECharts", purpose: "Visualización de indicadores y gráficos" },
+      { name: "Supabase Storage", purpose: "Almacenamiento de documentos" },
+    ],
+    results: [
+      "Centralización de la asistencia, los legajos y los reportes en una única plataforma",
+      "Optimización del tiempo de registro de asistencia, incluso desde dispositivos móviles",
+      "Acceso inmediato a la información completa de cada estudiante",
+      "Indicadores que permiten anticipar situaciones de riesgo académico",
+      "Control de accesos según el perfil de cada usuario",
+    ],
+    tags: ["Angular", ".NET", "PostgreSQL", "Entity Framework"],
     featured: true,
-    cover: null,
-    images: [],
+    cover: roblesImages[0],
+    images: roblesImages,
   },
 ];
 

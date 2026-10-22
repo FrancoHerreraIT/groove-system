@@ -12,6 +12,7 @@ const navItems: NavItem[] = [
   { label: "Servicios", href: "/#servicios", isActive: () => false },
   { label: "Proyectos", href: "/proyectos", isActive: (pathname) => pathname.startsWith("/proyectos") },
   { label: "Contacto", href: "/#contacto", isActive: () => false },
+  { label: "Ayuda", href: "/preguntas-frecuentes", isActive: (pathname) => pathname.startsWith("/preguntas-frecuentes") },
 ];
 
 const linkClass =

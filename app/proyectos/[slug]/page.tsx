@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { Check } from "lucide-react";
-import { contactLinks, externalLinkProps, whatsappUrl } from "@/components/contact";
+import { externalLinkProps, INSTAGRAM_PROFILE } from "@/components/contact";
+import { ContactButtons } from "@/components/contact-buttons";
 import { ProjectGallery } from "@/components/project-gallery";
 import { arcadeButton, arcadeButtonLight, blockGap, CategoryTag, contentGap, ProjectCover, Section } from "@/components/ui";
 import { getProject, projects, type Project } from "@/data/projects";
+import { SITE_NAME, socialMetadata } from "@/lib/site";
 
 export function generateStaticParams() {
   return projects.map(({ slug }) => ({ slug }));
@@ -14,7 +16,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/proyectos/[slug]">): Promise<Metadata> {
   const project = getProject((await params).slug);
   if (!project) return {};
-  return { title: `${project.title} — Groove System`, description: project.summary };
+  return {
+    title: project.title,
+    description: project.summary,
+    ...socialMetadata(`${project.title} | ${SITE_NAME}`, project.summary),
+  };
 }
 
 const card = "border-2 border-primary bg-card shadow-[6px_6px_0px_var(--color-primary)]";
@@ -133,7 +139,6 @@ export default async function ProjectPage({ params }: PageProps<"/proyectos/[slu
 
   const { title, category, summary, url, cover, overview, images } = project;
   const sections = caseSections(project);
-  const instagram = contactLinks.find((link) => link.label === "Instagram")!;
 
   const facts = overview
     ? [
@@ -182,23 +187,19 @@ export default async function ProjectPage({ params }: PageProps<"/proyectos/[slu
                       <div className="py-3 last:pb-0">
                         <dt className="font-mono text-xs uppercase tracking-wider text-muted">Estado</dt>
                         <dd className="mt-1 flex items-center gap-2">
-                          {overview.status === "En producción" && (
+                          {overview.status === "Online" && (
                             <span aria-hidden className="size-2.5 shrink-0 border-2 border-primary bg-accent" />
                           )}
                           {overview.status}
                         </dd>
                       </div>
-                      {overview.site && (
+                      {url && overview.site && (
                         <div className="py-3 last:pb-0">
                           <dt className="font-mono text-xs uppercase tracking-wider text-muted">Sitio</dt>
                           <dd className="mt-1">
-                            {url ? (
-                              <a href={url} {...externalLinkProps} className="transition-colors duration-300 hover:text-retro-pink">
-                                {overview.site} ↗
-                              </a>
-                            ) : (
-                              overview.site
-                            )}
+                            <a href={url} {...externalLinkProps} className="transition-colors duration-300 hover:text-retro-pink">
+                              {overview.site} ↗
+                            </a>
                           </dd>
                         </div>
                       )}
@@ -206,7 +207,7 @@ export default async function ProjectPage({ params }: PageProps<"/proyectos/[slu
                   </div>
                 )}
                 <a
-                  href={whatsappUrl}
+                  href={INSTAGRAM_PROFILE}
                   {...externalLinkProps}
                   className={`${arcadeButton} w-full bg-accent text-white shadow-[4px_4px_0px_var(--color-primary)] hover:shadow-[2px_2px_0px_var(--color-primary)]`}
                 >
@@ -242,10 +243,7 @@ export default async function ProjectPage({ params }: PageProps<"/proyectos/[slu
         <p className={`${contentGap} max-w-2xl text-lg leading-relaxed text-muted text-pretty sm:text-xl`}>
           Contanos tu idea y te enviamos una propuesta sin cargo.
         </p>
-        <a href={instagram.href} {...externalLinkProps} className={`${arcadeButton} ${instagram.className} mt-10`}>
-          <instagram.icon aria-hidden className="size-4" />
-          {instagram.label}
-        </a>
+        <ContactButtons />
       </Section>
     </main>
   );
