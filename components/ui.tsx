@@ -6,7 +6,7 @@ import type { ProjectImage } from "@/data/projects";
 // Ritmo vertical del sitio: padding de cada sección, título → contenido y separación entre bloques grandes
 export const sectionPadding = "py-14 md:py-20";
 // Primera sección de una página interna: menos aire debajo del navbar
-export const firstSectionPadding = "pb-14 pt-8 md:pb-20 md:pt-10";
+export const firstSectionPadding = "pb-14 pt-5 md:pb-20 md:pt-6";
 export const contentGap = "mt-8 md:mt-10";
 export const blockGap = "mt-14 md:mt-20";
 

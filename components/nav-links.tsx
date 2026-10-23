@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 
 type NavItem = { label: string; href: string; isActive: (pathname: string) => boolean };
 
@@ -19,8 +19,29 @@ const linkClass =
   "transition-colors duration-300 hover:text-retro-pink outline-none focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-solid focus-visible:outline-accent";
 const activeClass = "text-ink underline decoration-accent decoration-2 underline-offset-8";
 
+// Link a "/" que, si ya estamos en el inicio, vuelve arriba (Next no scrollea al navegar a la misma URL)
+function useScrollToTopOnHome() {
+  const pathname = usePathname();
+  return (event: MouseEvent<HTMLAnchorElement>) => {
+    if (pathname !== "/" || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    event.preventDefault();
+    if (window.location.hash) window.history.replaceState(window.history.state, "", "/");
+    window.scrollTo({ top: 0 });
+  };
+}
+
+export function HomeLink({ className, children }: { className: string; children: ReactNode }) {
+  const scrollToTop = useScrollToTopOnHome();
+  return (
+    <Link href="/" onClick={scrollToTop} className={className}>
+      {children}
+    </Link>
+  );
+}
+
 function NavItems({ onNavigate, className }: { onNavigate?: () => void; className: string }) {
   const pathname = usePathname();
+  const scrollToTop = useScrollToTopOnHome();
   return (
     <ul className={className}>
       {navItems.map(({ label, href, isActive }) => {
@@ -29,7 +50,10 @@ function NavItems({ onNavigate, className }: { onNavigate?: () => void; classNam
           <li key={href}>
             <Link
               href={href}
-              onClick={onNavigate}
+              onClick={(event) => {
+                if (href === "/") scrollToTop(event);
+                onNavigate?.();
+              }}
               aria-current={active ? "page" : undefined}
               className={`${linkClass} ${active ? activeClass : ""}`}
             >

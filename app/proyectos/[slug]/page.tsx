@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Check } from "lucide-react";
+import { ArrowLeft, Check } from "lucide-react";
 import { externalLinkProps, INSTAGRAM_PROFILE } from "@/components/contact";
 import { ContactButtons } from "@/components/contact-buttons";
 import { ProjectGallery } from "@/components/project-gallery";
-import { arcadeButton, arcadeButtonLight, blockGap, CategoryTag, contentGap, ProjectCover, Section } from "@/components/ui";
+import { arcadeButton, arcadeButtonLight, blockGap, CategoryTag, contentGap, ProjectCover, Section, textLink } from "@/components/ui";
 import { getProject, projects, type Project } from "@/data/projects";
 import { SITE_NAME, socialMetadata } from "@/lib/site";
 
@@ -107,7 +108,7 @@ function caseSections({ challenge, solutionIntro, solution, stack, results }: Pr
           <tbody>
             {stack.map(({ name, purpose }) => (
               <tr key={name} className="border-t-2 border-primary">
-                <th scope="row" className="whitespace-nowrap px-4 py-3 align-top font-mono text-sm font-bold sm:px-6">
+                <th scope="row" className="px-4 py-3 align-top font-mono text-sm font-bold sm:whitespace-nowrap sm:px-6">
                   {name}
                 </th>
                 <td className="px-4 py-3 leading-relaxed text-muted sm:px-6">{purpose}</td>
@@ -152,7 +153,11 @@ export default async function ProjectPage({ params }: PageProps<"/proyectos/[slu
   return (
     <main className="flex-1">
       <Section as="article" first>
-        <header className="max-w-3xl">
+        <Link href="/proyectos" className={`${textLink} group inline-flex items-center gap-2`}>
+          <ArrowLeft aria-hidden className="size-4 transition-transform duration-300 group-hover:-translate-x-1" />
+          Volver a proyectos
+        </Link>
+        <header className="mt-5 max-w-3xl">
           <CategoryTag>{category}</CategoryTag>
           <h1 className="mt-4 font-display text-3xl font-extrabold tracking-tight sm:text-5xl">{title}</h1>
           <p className="mt-6 text-lg leading-relaxed text-muted text-pretty sm:text-xl">{summary}</p>
@@ -171,7 +176,7 @@ export default async function ProjectPage({ params }: PageProps<"/proyectos/[slu
         />
 
         {(overview || sections.length > 0) && (
-          <div className={`${blockGap} grid gap-12 lg:grid-cols-[minmax(0,65fr)_minmax(0,35fr)]`}>
+          <div className={`${blockGap} grid grid-cols-1 gap-12 lg:grid-cols-[minmax(0,65fr)_minmax(0,35fr)]`}>
             <aside className="lg:order-last">
               <div className="space-y-8 lg:sticky lg:top-28">
                 {overview && (

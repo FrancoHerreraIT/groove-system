@@ -10,7 +10,8 @@ export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
   // false en el servidor y en la hidratación, true después de montar: evita mostrar el ícono equivocado
   const mounted = useSyncExternalStore(subscribe, () => true, () => false);
-  const isDark = resolvedTheme === "dark";
+  // Hasta montar, el tema no se conoce en el servidor: el aria-label tiene que coincidir con el HTML del servidor
+  const isDark = mounted && resolvedTheme === "dark";
 
   return (
     <button
